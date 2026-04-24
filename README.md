@@ -15,7 +15,7 @@
 
 ## 一键导入
 ### QuanX 真正一键导入（推荐）
-- `quantumult-x:///add-resource?remote-resource=https%3A%2F%2Fraw.githubusercontent.com%2Feleven252412%2Fioshashiqi-quanx-checkin%2Fmain%2Fquanx-import.conf,tag=%E5%93%88%E5%A3%AB%E5%A5%87%E7%AD%BE%E5%88%B0&img-url=https%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fexplore%2Fmain%2Ftopics%2Fquantumult-x%2Fquantumult-x.png`
+- `quantumult-x:///add-resource?remote-resource=https%3A%2F%2Fraw.githubusercontent.com%2Feleven252412%2Fioshashiqi-quanx-checkin%2Fmain%2Fquanx-import.conf&tag=%E5%93%88%E5%A3%AB%E5%A5%87%E7%AD%BE%E5%88%B0&img-url=https%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fexplore%2Fmain%2Ftopics%2Fquantumult-x%2Fquantumult-x.png`
 
 ### 原始配置文件链接
 - `https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/quanx-import.conf`
