@@ -24,7 +24,7 @@
 ### rewrite_local
 ```ini
 [rewrite_local]
-^https?:\/\/vip\.ioshashiqi\.com\/(aspx3\/mobile\/(login|usercenter|qiandao)\.aspx.*)$ url script-request-header https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js
+^https?:\/\/vip\.ioshashiqi\.com\/aspx3\/mobile\/.*\.aspx.*$ url script-request-header https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js
 ```
 
 ### task_local
@@ -51,6 +51,7 @@
 
 ## 常见通知
 - 抓取：`哈士奇 Cookie 抓取 / 成功 / 已保存到 QuanX 本地存档`
+- 命中：`哈士奇 Cookie 抓取 / 已命中页面 / 抓取脚本已命中当前页面，正在检查登录态 cookie`
 - 保活：`哈士奇 Cookie 状态 / 仍有效 / 本地 cookie 未变化，今天已确认仍可读取`
 - 诊断：`哈士奇 Cookie 抓取 / 未拿到完整登录态 / ...`
 - 已签：`哈士奇签到 / 已签到 / ...`

@@ -11,6 +11,7 @@ const CONFIG = {
   captureNotifyKey: 'ioshashiqi_cookie_last_notify',
   captureDailySeenKey: 'ioshashiqi_cookie_daily_seen',
   captureMissNotifyKey: 'ioshashiqi_cookie_miss_daily_seen',
+  captureHitNotifyKey: 'ioshashiqi_cookie_hit_daily_seen',
   captureNotifyCooldownMs: 15000,
   login: {
     username: '',
@@ -95,6 +96,14 @@ function shouldNotifyDailyCaptureMiss() {
   $prefs.setValueForKey(today, CONFIG.captureMissNotifyKey);
   return true;
 }
+
+function shouldNotifyDailyCaptureHit() {
+  const today = new Date().toISOString().slice(0, 10);
+  const last = $prefs.valueForKey(CONFIG.captureHitNotifyKey) || '';
+  if (last === today) return false;
+  $prefs.setValueForKey(today, CONFIG.captureHitNotifyKey);
+  return true;
+}
 function extractUsefulCookie(rawCookie) {
   const jar = parseCookieString(rawCookie);
   const picked = new Map();
@@ -174,20 +183,26 @@ function captureCookieMode() {
   const host = url.match(/^https?:\/\/([^/]+)/i);
   if (!host || !/^vip\.ioshashiqi\.com$/i.test(host[1])) return false;
   const path = url.replace(/^https?:\/\/[^/]+/i, '') || '/';
-  const isCapturePage = path.startsWith('/aspx3/mobile/login.aspx') || path.startsWith('/aspx3/mobile/usercenter.aspx') || path.startsWith('/aspx3/mobile/qiandao.aspx');
+  const isCapturePage = /^\/aspx3\/mobile\/[A-Za-z0-9_-]+\.aspx/i.test(path);
   if (!isCapturePage) return false;
-  const accept = String(getHeader(req.headers, 'accept') || '').toLowerCase();
-  if (accept && !accept.includes('text/html') && !accept.includes('application/xhtml+xml')) return false;
+  if (shouldNotifyDailyCaptureHit()) {
+    notify('哈士奇 Cookie 抓取', '已命中页面', '抓取脚本已命中当前页面，正在检查登录态 cookie');
+  }
   const rawCookie = getHeader(req.headers, 'cookie') || '';
   const usefulCookie = extractUsefulCookie(rawCookie);
   if (!usefulCookie || !hasLoginCookie(usefulCookie)) {
-    if (shouldNotifyDailyCaptureMiss()) notify('哈士奇 Cookie 抓取', '未拿到完整登录态', '脚本已命中，但当前请求里没有识别到 ASP.NET_SessionId，请确认是在已登录状态下打开会员中心或签到页');
+    if (shouldNotifyDailyCaptureMiss()) {
+      notify('哈士奇 Cookie 抓取', '未拿到完整登录态', '脚本已命中，但当前请求里没有识别到 ASP.NET_SessionId，请确认是在已登录状态下打开会员中心或签到页');
+    }
     $done({});
     return true;
   }
   const changed = saveCookieStore(usefulCookie);
-  if (changed && shouldNotifyCapture()) notify('哈士奇 Cookie 抓取', '成功', '已保存到 QuanX 本地存档');
-  else if (!changed && shouldNotifyDailyCookieSeen()) notify('哈士奇 Cookie 状态', '仍有效', '本地 cookie 未变化，今天已确认仍可读取');
+  if (changed && shouldNotifyCapture()) {
+    notify('哈士奇 Cookie 抓取', '成功', '已保存到 QuanX 本地存档');
+  } else if (!changed && shouldNotifyDailyCookieSeen()) {
+    notify('哈士奇 Cookie 状态', '仍有效', '本地 cookie 未变化，今天已确认仍可读取');
+  }
   $done({});
   return true;
 }
