@@ -185,18 +185,18 @@ function captureCookieMode() {
   const path = url.replace(/^https?:\/\/[^/]+/i, '') || '/';
   const isCapturePage = path.startsWith('/aspx3/mobile/');
   if (!isCapturePage) return false;
-  if (shouldNotifyDailyCaptureHit()) {
+  if (isCapturePage) {
     notify('哈士奇 Cookie 抓取', '已命中页面', `已命中：${path}`);
   }
   const rawCookie = getHeader(req.headers, 'cookie') || '';
   const usefulCookie = extractUsefulCookie(rawCookie);
   if (!rawCookie) {
-    if (shouldNotifyDailyCaptureMiss()) notify('哈士奇 Cookie 抓取', '已命中页面但未带 Cookie', `已命中：${path}`);
+    notify('哈士奇 Cookie 抓取', '已命中页面但未带 Cookie', `已命中：${path}`);
     $done({});
     return true;
   }
   if (!usefulCookie || !hasLoginCookie(usefulCookie)) {
-    if (shouldNotifyDailyCaptureMiss()) notify('哈士奇 Cookie 抓取', '未拿到完整登录态', `已命中：${path}，但当前请求里没有识别到 ASP.NET_SessionId`);
+    notify('哈士奇 Cookie 抓取', '未拿到完整登录态', `已命中：${path}，但当前请求里没有识别到 ASP.NET_SessionId`);
     $done({});
     return true;
   }
