@@ -154,7 +154,9 @@ function parseUserId(html) {
 
 function parseTotalDogfood(html) {
   const match = html.match(/balance-amount[^>]*>([0-9]+)狗粮</i);
-  return match ? Number(match[1]) : null;
+  if (match) return Number(match[1]);
+  const fallback = html.match(/balance-amount[^>]*>([0-9]+)狗粮</);
+  return fallback ? Number(fallback[1]) : null;
 }
 function parseSignState(raw) {
   let data;
