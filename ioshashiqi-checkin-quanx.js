@@ -183,17 +183,20 @@ function captureCookieMode() {
   const host = url.match(/^https?:\/\/([^/]+)/i);
   if (!host || !/^vip\.ioshashiqi\.com$/i.test(host[1])) return false;
   const path = url.replace(/^https?:\/\/[^/]+/i, '') || '/';
-  const isCapturePage = /^\/aspx3\/mobile\/[A-Za-z0-9_-]+\.aspx/i.test(path);
+  const isCapturePage = path.startsWith('/aspx3/mobile/');
   if (!isCapturePage) return false;
   if (shouldNotifyDailyCaptureHit()) {
-    notify('哈士奇 Cookie 抓取', '已命中页面', '抓取脚本已命中当前页面，正在检查登录态 cookie');
+    notify('哈士奇 Cookie 抓取', '已命中页面', `已命中：${path}`);
   }
   const rawCookie = getHeader(req.headers, 'cookie') || '';
   const usefulCookie = extractUsefulCookie(rawCookie);
+  if (!rawCookie) {
+    if (shouldNotifyDailyCaptureMiss()) notify('哈士奇 Cookie 抓取', '已命中页面但未带 Cookie', `已命中：${path}`);
+    $done({});
+    return true;
+  }
   if (!usefulCookie || !hasLoginCookie(usefulCookie)) {
-    if (shouldNotifyDailyCaptureMiss()) {
-      notify('哈士奇 Cookie 抓取', '未拿到完整登录态', '脚本已命中，但当前请求里没有识别到 ASP.NET_SessionId，请确认是在已登录状态下打开会员中心或签到页');
-    }
+    if (shouldNotifyDailyCaptureMiss()) notify('哈士奇 Cookie 抓取', '未拿到完整登录态', `已命中：${path}，但当前请求里没有识别到 ASP.NET_SessionId`);
     $done({});
     return true;
   }
