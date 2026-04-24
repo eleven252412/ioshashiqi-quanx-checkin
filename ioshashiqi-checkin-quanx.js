@@ -151,6 +151,11 @@ function parseUserId(html) {
   const match = html.match(/ID:\s*([0-9]{5,})/i);
   return match ? match[1] : '';
 }
+
+function parseTotalDogfood(html) {
+  const match = html.match(/balance-amount[^>]*>([0-9]+)狗粮</i);
+  return match ? Number(match[1]) : null;
+}
 function parseSignState(raw) {
   let data;
   try { data = JSON.parse(raw); } catch (e) { return { status: 'error', detail: `状态接口不是 JSON：${cleanText(raw).slice(0, 200)}` }; }
@@ -213,16 +218,18 @@ async function main() {
   const state = { cookie: storedCookie };
   let userCenterHtml = await fetchText(state, CONFIG.userCenterPage);
   let userId = parseUserId(userCenterHtml);
+  let totalDogfood = parseTotalDogfood(userCenterHtml);
   if (looksLoggedOut(userCenterHtml)) {
     userId = await loginWithPassword(state);
     userCenterHtml = await fetchText(state, CONFIG.userCenterPage);
+    totalDogfood = parseTotalDogfood(userCenterHtml);
   }
   const signPageHtml = await fetchText(state, CONFIG.signPage);
   if (looksLoggedOut(signPageHtml)) throw new Error('本地 cookie 已失效，请重新打开登录页或会员中心抓取新 cookie');
   let signState = await getSignState(state);
   if (signState.status === 'error') throw new Error(signState.detail);
   if (signState.signedToday) {
-    const msg = [`今天已签：${userId || 'unknown'}`, `连续签到：${signState.continuousDays}天`, `今日奖励：${signState.addjifen}狗粮`, CONFIG.signPage].join('\n');
+    const msg = [`今天已签：${userId || 'unknown'}`, `连续签到：${signState.continuousDays}天`, `今日奖励：${signState.addjifen}狗粮`, totalDogfood === null ? '' : `累计狗粮：${totalDogfood}狗粮`, CONFIG.signPage].filter(Boolean).join('\n');
     console.log('RESULT: ALREADY');
     console.log(`DETAIL: ${signState.detail}`);
     notify('哈士奇签到', '已签到', msg);
@@ -233,10 +240,12 @@ async function main() {
   if (!viewstate || !viewstateGenerator) throw new Error('签到页字段解析失败');
   await postForm(state, CONFIG.signPage, { __EVENTTARGET: '_lbtqd', __EVENTARGUMENT: '', __VIEWSTATE: viewstate, __VIEWSTATEGENERATOR: viewstateGenerator }, { Referer: CONFIG.signPage });
   signState = await getSignState(state);
+  userCenterHtml = await fetchText(state, CONFIG.userCenterPage);
+  totalDogfood = parseTotalDogfood(userCenterHtml);
   if (signState.signedToday) {
-    const msg = [`签到成功：${userId || 'unknown'}`, `连续签到：${signState.continuousDays}天`, `今日奖励：${signState.addjifen}狗粮`, CONFIG.signPage].join('\n');
+    const msg = [`签到成功：${userId || 'unknown'}`, `连续签到：${signState.continuousDays}天`, `今日奖励：${signState.addjifen}狗粮`, totalDogfood === null ? '' : `累计狗粮：${totalDogfood}狗粮`, CONFIG.signPage].filter(Boolean).join('\n');
     console.log('RESULT: SUCCESS');
-    console.log(`DETAIL: continuousDays=${signState.continuousDays}; addjifen=${signState.addjifen}`);
+    console.log(`DETAIL: continuousDays=${signState.continuousDays}; addjifen=${signState.addjifen}; totalDogfood=${totalDogfood}`);
     notify('哈士奇签到', '成功', msg);
     return;
   }
