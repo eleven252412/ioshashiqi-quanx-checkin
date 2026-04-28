@@ -231,7 +231,7 @@ async function main() {
   let signState = await getSignState(state);
   if (signState.status === 'error') throw new Error(signState.detail);
   if (signState.signedToday) {
-    const msg = `签到成功 | 今日获取${signState.addjifen}狗粮 | 总积分${totalDogfood === null ? '未知' : totalDogfood + '狗粮'}`;
+    const msg = `签到成功 | ${signState.addjifen} | ${totalDogfood === null ? '未知' : totalDogfood}`;
     console.log('RESULT: ALREADY');
     console.log(`DETAIL: ${signState.detail}`);
     notify('哈士奇签到', '签到成功', msg);
@@ -245,7 +245,7 @@ async function main() {
   userCenterHtml = await fetchText(state, CONFIG.userCenterPage);
   totalDogfood = parseTotalDogfood(userCenterHtml);
   if (signState.signedToday) {
-    const msg = `签到成功 | 今日获取${signState.addjifen}狗粮 | 总积分${totalDogfood === null ? '未知' : totalDogfood + '狗粮'}`;
+    const msg = `签到成功 | ${signState.addjifen} | ${totalDogfood === null ? '未知' : totalDogfood}`;
     console.log('RESULT: SUCCESS');
     console.log(`DETAIL: continuousDays=${signState.continuousDays}; addjifen=${signState.addjifen}; totalDogfood=${totalDogfood}`);
     notify('哈士奇签到', '签到成功', msg);
