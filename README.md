@@ -24,13 +24,13 @@
 ### rewrite_local
 ```ini
 [rewrite_local]
-^https?:\/\/www\.haxiaohaios2\.com\/aspx3\/mobile\/.*\.aspx.*$ url script-request-header https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js
+^https?:\/\/www\.haxiaohaios2\.com\/aspx3\/mobile\/.*\.aspx.*$ url script-request-header https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js?v=20260912-2
 ```
 
 ### task_local
 ```ini
 [task_local]
-10 8 * * * https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js, tag=哈士奇签到, enabled=true
+10 8 * * * https://raw.githubusercontent.com/eleven252412/ioshashiqi-quanx-checkin/main/ioshashiqi-checkin-quanx.js?v=20260912-2, tag=哈士奇签到, enabled=true
 ```
 
 ## 使用步骤
