@@ -37,17 +37,18 @@
 1. 在 QuanX 添加上面的 `rewrite_local`
 2. 登录 `https://www.haxiaohaios2.com/aspx3/mobile/login.aspx`
 3. 登录后打开：
-   - `https://www.haxiaohaios2.com/aspx3/mobile/usercenter.aspx?action=index`
-   - 或 `https://www.haxiaohaios2.com/aspx3/mobile/index2.aspx`
+   - `https://www.haxiaohaios2.com/aspx3/mobile/index2.aspx`
+   - 或 `https://www.haxiaohaios2.com/aspx3/mobile/usercenter.aspx?action=index`
 4. 看到 `哈士奇 Cookie 抓取 / 成功 / 已保存到 QuanX 本地存档`
 5. 再添加 `task_local` 定时任务
 
 ## 已确认链路
 - 登录页：`/aspx3/mobile/login.aspx`
 - 会员中心：`/aspx3/mobile/usercenter.aspx?action=index`
-- 签到页：`/aspx3/mobile/index2.aspx`
+- 新站入口：`/aspx3/mobile/index2.aspx`
+- 实际签到页：`/aspx3/mobile/qiandao.aspx`
 - 状态接口：`/ashx/Honor.ashx`，参数 `control=list`
-- 实际签到：对 `index2.aspx` 提交 ASP.NET postback：`__EVENTTARGET=_lbtqd`
+- 实际签到：对 `qiandao.aspx` 提交 ASP.NET postback：`__EVENTTARGET=_lbtqd`
 
 ## 常见通知
 - 抓取：`哈士奇 Cookie 抓取 / 成功 / 已保存到 QuanX 本地存档`

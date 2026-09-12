@@ -2,7 +2,7 @@ const CONFIG = {
   baseUrl: 'https://www.haxiaohaios2.com',
   loginPage: 'https://www.haxiaohaios2.com/aspx3/mobile/login.aspx',
   userCenterPage: 'https://www.haxiaohaios2.com/aspx3/mobile/usercenter.aspx?action=index',
-  signPage: 'https://www.haxiaohaios2.com/aspx3/mobile/index2.aspx',
+  signPage: 'https://www.haxiaohaios2.com/aspx3/mobile/qiandao.aspx',
   honorApi: 'https://www.haxiaohaios2.com/ashx/Honor.ashx',
   userAgent:
     'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
