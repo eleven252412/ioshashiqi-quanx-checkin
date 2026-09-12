@@ -1,9 +1,9 @@
 const CONFIG = {
-  baseUrl: 'https://vip.ioshashiqi.com',
-  loginPage: 'https://vip.ioshashiqi.com/aspx3/mobile/login.aspx',
-  userCenterPage: 'https://vip.ioshashiqi.com/aspx3/mobile/usercenter.aspx?action=index',
-  signPage: 'https://vip.ioshashiqi.com/aspx3/mobile/qiandao.aspx',
-  honorApi: 'https://vip.ioshashiqi.com/ashx/Honor.ashx',
+  baseUrl: 'https://www.haxiaohaios2.com',
+  loginPage: 'https://www.haxiaohaios2.com/aspx3/mobile/login.aspx',
+  userCenterPage: 'https://www.haxiaohaios2.com/aspx3/mobile/usercenter.aspx?action=index',
+  signPage: 'https://www.haxiaohaios2.com/aspx3/mobile/index2.aspx',
+  honorApi: 'https://www.haxiaohaios2.com/ashx/Honor.ashx',
   userAgent:
     'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
   timeout: 20000,
@@ -188,7 +188,7 @@ function captureCookieMode() {
   if (!req || !req.headers) return false;
   const url = req.url || '';
   const host = url.match(/^https?:\/\/([^/]+)/i);
-  if (!host || !/^vip\.ioshashiqi\.com$/i.test(host[1])) return false;
+  if (!host || !/^www\.haxiaohaios2\.com$/i.test(host[1])) return false;
   const path = url.replace(/^https?:\/\/[^/]+/i, '') || '/';
   const isCapturePage = path.startsWith('/aspx3/mobile/');
   if (!isCapturePage) return false;
